@@ -1,0 +1,45 @@
+[build-system]
+requires = [
+    "numpy",
+    "scikit-build-core<0.6",
+]
+build-backend = "scikit_build_core.build"
+
+# This section provides general project metadata that is used across
+# a variety of build tools.
+[project]
+name = "z5py"
+version = "2.0.17"
+description = "Lightweight C++ and Python interface for datasets in zarr and N5 format"
+readme = "README.md"
+maintainers = [
+    { name = "Constantin Pape" },
+]
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = []
+
+[tool.scikit-build]
+wheel.packages = ["src/python/module/z5py"]
+
+[tool.scikit-build.cmake.define]
+BUILD_TESTS = "OFF"
+BUILD_Z5PY = "ON"
+
+# The next section configures building wheels in Continuous Integration
+# The cibuildwheel documentation covers the available options in detail:
+# https://cibuildwheel.readthedocs.io/en/stable/options/
+[tool.cibuildwheel]
+# The variables in this section allow you to customize the process how the wheels
+# for the Python packages are built. For a list of options, see this
+# page: https://cibuildwheel.readthedocs.io/en/stable/options/
+
+# Verbose output is helpful for understanding CI failures
+build-verbosity = 3
+
+# We restrict ourselves to recent Python versions
+skip = "pp* *p27-* cp35-* cp36-* cp37-* *musllinux*"

@@ -290,32 +290,34 @@ include_directories(include)
 add_subdirectory(src)
 
 # install the headers
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/z5"
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
-  FILES_MATCHING
-  PATTERN "*.hxx"
-  PATTERN "*.hpp"
-  PATTERN "*.h"
-)
+if(NOT SKBUILD)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/z5"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
+    FILES_MATCHING
+    PATTERN "*.hxx"
+    PATTERN "*.hpp"
+    PATTERN "*.h"
+    )
 
-install(TARGETS z5
-        EXPORT ${PROJECT_NAME}-targets)
+    install(TARGETS z5
+            EXPORT ${PROJECT_NAME}-targets)
 
-set(Z5_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}" CACHE
-    STRING "install path for z5-config.cmake")
+    set(Z5_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}" CACHE
+        STRING "install path for z5-config.cmake")
 
-configure_package_config_file("${PROJECT_NAME}-config.cmake"
-                              "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
-                              INSTALL_DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
+    configure_package_config_file("${PROJECT_NAME}-config.cmake"
+                                "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+                                INSTALL_DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
 
-write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-                                 VERSION ${${PROJECT_NAME}_VERSION}
-                                 COMPATIBILITY AnyNewerVersion)
+    write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+                                    VERSION ${${PROJECT_NAME}_VERSION}
+                                    COMPATIBILITY AnyNewerVersion)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
-        DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+                ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+            DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
 
-install(EXPORT ${PROJECT_NAME}-targets
-        FILE ${PROJECT_NAME}-targets.cmake
-        DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
+    install(EXPORT ${PROJECT_NAME}-targets
+            FILE ${PROJECT_NAME}-targets.cmake
+            DESTINATION ${Z5_CMAKECONFIG_INSTALL_DIR})
+endif()
